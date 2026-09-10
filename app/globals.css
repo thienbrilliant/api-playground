@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f5f6f8;
+  --surface-1: #ffffff;
+  --surface-2: #f8f9fb;
+  --surface-3: #eef1f4;
+  --foreground: #15181d;
+  --muted: #4f5864;
+  --subtle: #7a8490;
+  --faint: #a0a8b2;
+  --line: #e1e5ea;
+  --line-strong: #cfd5dc;
+  --accent: #2f6feb;
+  --accent-strong: #2458bd;
+  --danger: #c13a42;
+  --success: #1a7f57;
+  --warning: #9c6a00;
+  --key: #7a3db5;
+  --string: #16704a;
+  --number: #b45309;
+  --boolean: #315ea8;
+  --null: #8a4c87;
+}
+
+.dark {
+  --background: #111418;
+  --surface-1: #171b20;
+  --surface-2: #1c2127;
+  --surface-3: #252b33;
+  --foreground: #eef1f4;
+  --muted: #b1bac5;
+  --subtle: #89939f;
+  --faint: #68727d;
+  --line: #2a3038;
+  --line-strong: #3a424c;
+  --accent: #78a9ff;
+  --accent-strong: #9abfff;
+  --danger: #ff7b84;
+  --success: #52c991;
+  --warning: #e1b657;
+  --key: #c59af9;
+  --string: #7dd3a7;
+  --number: #f4b66d;
+  --boolean: #94b7ff;
+  --null: #d49bcc;
+}
+
+* { box-sizing: border-box; }
+html { min-width: 320px; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+button, input, textarea, select { font: inherit; }
+::selection { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+.text-foreground { color: var(--foreground); }
+.text-muted { color: var(--muted); }
+.text-subtle { color: var(--subtle); }
+.text-faint { color: var(--faint); }
+.text-success { color: var(--success); }
+.text-danger { color: var(--danger); }
+.text-warning { color: var(--warning); }
+.text-key { color: var(--key); }
+.text-string { color: var(--string); }
+.text-number { color: var(--number); }
+.text-boolean { color: var(--boolean); }
+.text-null { color: var(--null); }
+.bg-page { background: var(--background); }
+.bg-surface-1 { background: var(--surface-1); }
+.bg-surface-2 { background: var(--surface-2); }
+.bg-surface-3 { background: var(--surface-3); }
+.border-line { border-color: var(--line); }
+.border-line-strong { border-color: var(--line-strong); }
+.bg-accent { background: var(--accent); }
+.text-accent { color: var(--accent); }
+
+.scrollbar-thin { scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
