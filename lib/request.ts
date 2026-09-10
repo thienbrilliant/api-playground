@@ -52,7 +52,7 @@ export function prepareRequest(request: RequestState): PreparedRequest {
 
   for (const entry of request.headers) {
     if (!entry.enabled || !entry.key.trim()) continue
-    if (headers.has(entry.key)) headers.append(entry.value)
+    if (headers.has(entry.key)) headers.append(entry.key, entry.value)
     else headers.set(entry.key, entry.value)
   }
 
