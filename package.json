@@ -2,6 +2,29 @@
   "name": "api-playground",
   "version": "1.0.0",
   "private": true,
+  "description": "A lightweight browser-native HTTP client for building requests and inspecting responses.",
+  "license": "MIT",
+  "author": "thienbrilliant",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thienbrilliant/api-playground.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thienbrilliant/api-playground/issues"
+  },
+  "homepage": "https://github.com/thienbrilliant/api-playground",
+  "keywords": [
+    "api-client",
+    "http-client",
+    "rest-client",
+    "developer-tools",
+    "nextjs",
+    "react",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
