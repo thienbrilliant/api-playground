@@ -1,103 +1,144 @@
 # API Playground
 
-A focused browser-native HTTP client for building requests and inspecting responses without the weight of a full API platform.
+> A lightweight, browser-native HTTP client for developers who want to build requests, inspect responses, and debug APIs without a full API platform.
 
-## Product
+[![CI](https://github.com/thienbrilliant/api-playground/actions/workflows/ci.yml/badge.svg)](https://github.com/thienbrilliant/api-playground/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-315b4b.svg)](LICENSE)
 
-API Playground is intentionally small in scope: compose an HTTP request, send it directly from the browser, inspect the response, and restore useful requests later. There is no account system, backend proxy, database, analytics layer, or cloud state in the MVP.
+## Why
 
-### Features
+API Playground is deliberately small. It gives developers a focused request builder and response inspector while keeping the execution model honest: requests run directly in the browser, so normal browser CORS policy still applies.
 
-- GET, POST, PUT, PATCH, DELETE request builder
-- Inline query-parameter and header editing with per-row enable/disable controls
-- JSON request body with validation and formatting
+There is no account system, database, analytics layer, cloud request storage, or server-side proxy.
+
+## Features
+
+- GET, POST, PUT, PATCH, and DELETE
+- URL, query parameter, and request header editing
+- Enable/disable individual query and header rows
+- JSON request body validation and formatting
 - Cancelable requests with a 30-second timeout
-- Status, timing, response size, response headers, and response body inspection
+- HTTP status, status text, timing, response size, and response headers
 - Collapsible JSON response tree with text fallback
-- Copy request URL, request body, and response body
-- Browser-local request history with corrupted-storage protection
+- Copy URL, request body, and response body
+- Browser-local request history with corrupt-storage protection
 - Light/dark theme with persistent preference
-- Keyboard send shortcut (`Ctrl/Cmd + Enter`)
-- Responsive layout for desktop, tablet, and mobile
-- Security-conscious response rendering: response HTML is always displayed as escaped text
+- `Ctrl/Cmd + Enter` send shortcut
+- Responsive desktop, tablet, and mobile UI
+- Escaped response rendering; response HTML is never injected into the DOM
+- Lightweight implementation with native browser primitives instead of a large editor stack
+
+## Screens and behavior
+
+The primary workflow is intentionally linear:
+
+1. Configure the request.
+2. Send it from the browser.
+3. Inspect status, timing, headers, and body.
+4. Restore previous requests from local history when needed.
 
 ## Architecture
 
-The app is a Next.js App Router project with a deliberately small client boundary.
-
 ```text
 app/
-  layout.tsx        metadata, fonts, global shell
-  page.tsx          server entrypoint
+  layout.tsx             metadata and application shell
+  page.tsx               server entrypoint
+  globals.css            design tokens and global styles
+
 components/
-  playground.tsx    request/response orchestration and interaction state
-  key-value-editor.tsx
-  json-viewer.tsx
-  icons.tsx
+  playground.tsx         request/response orchestration
+  key-value-editor.tsx   query/header editor
+  json-viewer.tsx        lightweight JSON tree
+  icons.tsx              local SVG icon primitives
+
 lib/
-  request.ts        URL validation and request construction
-  network.ts        fetch, timeout, abort, response-size cap
-  format.ts         JSON/text parsing and formatting
-  history.ts        local persistence and schema checks
-  types.ts          shared domain types
+  request.ts             URL validation and request construction
+  network.ts             fetch, timeout, abort, response-size cap
+  format.ts              response parsing and formatting
+  history.ts             local persistence and schema validation
+  types.ts               shared domain types
+  id.ts                  client-side history IDs
+
+tests/                    unit/component tests
+e2e/                      Playwright critical-flow tests
+.github/workflows/        CI
 ```
 
-The request and response workflows remain client-side because `fetch` is the product's intended execution model. This means browser CORS policy remains visible and honest rather than being hidden behind an unaudited server proxy.
+The client boundary is intentionally small. Request preparation, network handling, formatting, and history persistence remain isolated from presentation code.
 
-## Local setup
+## Requirements
 
-Requirements: Node.js 22+ and npm.
+- Node.js 22+
+- npm
+- A modern browser with `fetch`, `AbortController`, Clipboard API, and local storage support
+
+## Local development
 
 ```bash
+git clone https://github.com/thienbrilliant/api-playground.git
+cd api-playground
 npm install
 npm run dev
 ```
 
 Open `http://localhost:3000`.
 
-Core functionality does not require environment variables. `.env.example` is included to make that contract explicit.
+The core application does not require environment variables. `.env.example` documents that contract explicitly.
 
-## Scripts
+## Quality checks
 
-```text
-npm run dev        Start Next.js locally
-npm run lint       ESLint
-npm run typecheck  TypeScript without emit
-npm test           Unit + component tests
-npm run test:e2e   Playwright critical-flow tests
-npm run build      Production build
-npm start          Serve the production build
+Run the same checks used by CI before shipping a change:
+
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run test:e2e
+npm run build
 ```
 
-The Playwright suite mocks network calls, so CI does not depend on a public API being available.
+For a production-like local run:
+
+```bash
+npm run build
+npm start
+```
+
+The Playwright suite mocks its API traffic, so end-to-end CI does not depend on a third-party public API.
 
 ## Deployment
 
-The project is configured for Vercel's standard Next.js deployment path. No server runtime or database is required for the MVP.
+API Playground is a standard Next.js application and can be deployed to Vercel or another Node-compatible Next.js host.
 
-## Browser and networking limitations
+The MVP does not require a database, server-side API runtime, or application secrets.
 
-Requests execute from the browser. Target APIs therefore need to permit the request through CORS. A failed browser fetch is surfaced as a request failure instead of being mislabeled as an HTTP status.
+## Browser and networking model
 
-The response body is capped at 2 MB to keep the UI responsive. The cap is visible in the response inspector when triggered.
+Requests execute from the user's browser. The target API must therefore allow the browser request through CORS. A browser-level failure is surfaced as a request/network error instead of being mislabeled as an HTTP status.
 
-Because credentials are not a first-class feature, sensitive API keys should not be pasted into requests stored in local history. History is intentionally local to the current browser and is best-effort persistence.
+The application accepts only `http:` and `https:` request URLs. There is no server-side request proxy, which avoids turning the deployment into a general-purpose SSRF primitive.
 
-## Security decisions
+Response bodies are capped at 2 MB to keep the inspector responsive. When the cap is reached, the UI indicates that the displayed size is truncated.
 
-- Only `http:` and `https:` request URLs are accepted.
-- No server-side proxy is included, avoiding an unnecessary SSRF surface.
-- API responses are rendered as text/data; untrusted HTML is never injected into the DOM.
+## Security notes
+
+- Only `http:` and `https:` request targets are accepted.
+- No server-side proxy is included.
+- Response HTML is rendered as text/data; untrusted markup is never executed or injected.
 - No `eval`, `Function`, or executable response rendering is used.
-- Security-conscious response headers are set by Next.js where applicable.
-- Local storage is treated as untrusted input and validated before use.
+- Browser local storage is treated as untrusted input and validated before use.
+- Request history is local to the current browser. Do not store production credentials or sensitive API keys in it.
 
-## Design decisions
+See [SECURITY.md](SECURITY.md) for vulnerability reporting guidance.
 
-The interface uses a restrained developer-tool vocabulary: compact controls, explicit surfaces, low-contrast borders, monospace data, and status-first response scanning. The request editor and response inspector are the primary surfaces; history is secondary and collapsible.
+## Contributing
 
-The MVP prefers native browser primitives over heavy component/editor libraries. JSON formatting and tree rendering are intentionally lightweight so the product stays fast and understandable.
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for development, testing, pull-request, and commit conventions.
 
-## Future improvements
+## Release notes
 
-Potential next steps include import/export of request definitions, environment variables that are explicitly scoped to a local browser session, request tabs, richer response formatting, and an optional audited proxy for APIs that cannot expose CORS.
+See [CHANGELOG.md](CHANGELOG.md) for user-facing release history.
+
+## License
+
+API Playground is released under the [MIT License](LICENSE).
