@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#15181d"/><path d="M16 18h32v8H16zm0 12h20v8H16zm0 12h26v8H16z" fill="#78a9ff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="API Playground">
+  <rect width="64" height="64" rx="14" fill="#20231f"/>
+  <path d="M17 18h30v6H17zm0 11h21v6H17zm0 11h26v6H17z" fill="#a8cbbd"/>
+  <path d="M45 29h3v17h-3z" fill="#7b8178"/>
+</svg>
