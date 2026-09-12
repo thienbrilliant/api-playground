@@ -3,49 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --background: #f5f6f8;
-  --surface-1: #ffffff;
-  --surface-2: #f8f9fb;
-  --surface-3: #eef1f4;
-  --foreground: #15181d;
-  --muted: #4f5864;
-  --subtle: #7a8490;
-  --faint: #a0a8b2;
-  --line: #e1e5ea;
-  --line-strong: #cfd5dc;
-  --accent: #2f6feb;
-  --accent-strong: #2458bd;
-  --danger: #c13a42;
-  --success: #1a7f57;
-  --warning: #9c6a00;
-  --key: #7a3db5;
-  --string: #16704a;
-  --number: #b45309;
-  --boolean: #315ea8;
-  --null: #8a4c87;
+  --background: #f3f4f1;
+  --surface-1: #fbfbf9;
+  --surface-2: #f0f1ee;
+  --surface-3: #e5e7e2;
+  --foreground: #20231f;
+  --muted: #565b54;
+  --subtle: #7b8178;
+  --faint: #a1a69e;
+  --line: #d9dcd5;
+  --line-strong: #c4c8c0;
+  --accent: #315b4b;
+  --accent-strong: #254b3d;
+  --danger: #a33d3d;
+  --success: #2e7655;
+  --warning: #9a6a16;
+  --key: #76543d;
+  --string: #356c4d;
+  --number: #8b5a1e;
+  --boolean: #496080;
+  --null: #805b78;
 }
 
 .dark {
-  --background: #111418;
-  --surface-1: #171b20;
-  --surface-2: #1c2127;
-  --surface-3: #252b33;
-  --foreground: #eef1f4;
-  --muted: #b1bac5;
-  --subtle: #89939f;
-  --faint: #68727d;
-  --line: #2a3038;
-  --line-strong: #3a424c;
-  --accent: #78a9ff;
-  --accent-strong: #9abfff;
-  --danger: #ff7b84;
-  --success: #52c991;
-  --warning: #e1b657;
-  --key: #c59af9;
-  --string: #7dd3a7;
-  --number: #f4b66d;
-  --boolean: #94b7ff;
-  --null: #d49bcc;
+  --background: #121513;
+  --surface-1: #181c19;
+  --surface-2: #1e231f;
+  --surface-3: #282e29;
+  --foreground: #e9ebe7;
+  --muted: #b5bab3;
+  --subtle: #858c84;
+  --faint: #626a62;
+  --line: #303630;
+  --line-strong: #414941;
+  --accent: #8eb7a4;
+  --accent-strong: #a8cbbd;
+  --danger: #ef8b8b;
+  --success: #76c39d;
+  --warning: #dfb96d;
+  --key: #d0aa87;
+  --string: #8bc49f;
+  --number: #e1b27a;
+  --boolean: #a7bbdf;
+  --null: #d2a6c8;
 }
 
 * { box-sizing: border-box; }
@@ -55,8 +55,9 @@ body {
   min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 button, input, textarea, select { font: inherit; }
 ::selection { background: color-mix(in srgb, var(--accent) 22%, transparent); }
